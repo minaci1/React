@@ -1,0 +1,24 @@
+import React from 'react';
+import classNames from 'classnames/bind';
+import styles from './CSSModule.module.scss'; // 파일명까지 css명으로 쓴다.
+
+const cx = classNames.bind(styles); // 미리 styles 에서 클래스를 받아오도록 설정하고
+const cx2 = classNames.bind(styles); // 미리 styles 에서 클래스를 받아오도록 설정하고
+
+const CSSModule = () => {
+  console.log(cx('wrapper', 'inverted'));
+  return (
+    <>
+      <div className={`${styles.wrapper}`}>
+        {/*중요한 부분 */}
+        안녕하세요, 저는 <span className="something">CSS Module!</span>
+      </div>
+      <div className={cx('wrapper', 'inverted')}>
+        {/*중요한 부분 */}
+        안녕하세요, 저는 <span className="something">CSS Module!</span>
+      </div>
+    </>
+  );
+};
+
+export default CSSModule;
