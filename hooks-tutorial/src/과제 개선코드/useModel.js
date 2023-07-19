@@ -1,0 +1,55 @@
+import { useMemo, useReducer } from "react";
+/*
+처리항목
+1. number의 변경
+2. list에 number 추가 -> 자동으로 평균값 계산
+*/
+const reducer = (state, action) => {
+  switch (
+    action.type //비즈니스 로직이 없도록 한다
+  ) {
+    case "CHANGE_NUMBER":
+      return { ...state, number: action.value };
+    case "ADD_NUMBER":
+      return { ...state, list: action.list, avg: action.avg };
+    default:
+      return state;
+  }
+  //  return { ...state, [action.name]: action.value };
+};
+
+const getAverage = (list) => {
+  console.log("평균값 계산 ->");
+  if (list === null || list.length === 0) return 0;
+  const sum = list.reduce((a, b) => a + b);
+  return sum / list.length;
+};
+
+const useModel = (initState) => {
+  initState.avg = getAverage(initState.list);
+  const [state, dispatch] = useReducer(reducer, initState);
+
+  const changeNumber = (number) => {
+    dispatch({ type: changeNumber, number: number });
+    console.log("🚀 ~ file: Average.js:12 ~ onChange ~ e.target.value:", number); // 벨류값
+  };
+
+  const addNumber = () => {
+    const updatedList = state.list.concat(parseInt(state.number));
+    //const avg = getAverage(updatedList);
+
+    // dispatch({ name: "list", value: updatedList }); // state list 업데이트
+    // dispatch({ name: "avg", value: avg }); // 평균값 업데이트
+    // dispatch({ name: "number", value: 0 }); // 지우기
+    dispatch({ type: "ADD_NUMBER", list: updatedList, avg: getAverage(updatedList) });
+  };
+
+  // useMemo(() => {
+  //   const avg = getAverage(state.list);
+  //   dispatch({ name: "avg", value: avg }); //초기에 한번만
+  // }, []);
+
+  return { state, changeNumber, addNumber }; //return 연관배열
+};
+
+export default useModel;
