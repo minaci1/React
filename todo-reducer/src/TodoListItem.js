@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback, useContext } from 'react';
 import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
@@ -6,26 +6,30 @@ import {
 } from 'react-icons/md';
 import './TodoListItem.scss';
 import cn from 'classnames';
+import TodoContext from './context/TodoContext';
 
-const TodoListItem = ({ todo, removeTodo, onToggle, style }) => {
+const TodoListItem = ({ todo, style }) => {
+  const { actions } = useContext(TodoContext);
   const { id, title, checked } = todo;
 
   const onClickRemove = useCallback(
     (e) => {
-      removeTodo(id);
+      actions.removeTodo(id);
     },
     [id],
   );
 
   const onChangeChecked = useCallback(
     (e) => {
-      onToggle(id);
+      actions.onToggle(id);
     },
     [id],
   );
 
+  console.log('여기렌더링~ todoListItem');
   return (
     //버츄어 요소 쓸 때사용해야하는 클래스 명이 있다. 꼭 만들어줘야함~
+
     <div className="TodoListItem-virtualized" style={style}>
       <div className="TodoListItem">
         <div className={cn('checkbox', { checked })} onClick={onChangeChecked}>
@@ -40,4 +44,4 @@ const TodoListItem = ({ todo, removeTodo, onToggle, style }) => {
   );
 };
 
-export default React.memo(TodoListItem);
+export default memo(TodoListItem);

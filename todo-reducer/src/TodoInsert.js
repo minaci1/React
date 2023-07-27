@@ -1,7 +1,10 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import './TodoInsert.scss';
-const TodoInsert = ({ insertTodo }) => {
+import TodoContext from './context/TodoContext';
+const TodoInsert = () => {
+  
+  const { actions } = useContext(TodoContext);
   const [value, setValue] = useState('');
   const inputBox = useRef(); //커서를 놓기위해
 
@@ -19,7 +22,7 @@ const TodoInsert = ({ insertTodo }) => {
     }
 
     //할일 추가한다.
-    insertTodo(value);
+    actions.insertTodo(value);
     setValue('');
     return false;
   });
