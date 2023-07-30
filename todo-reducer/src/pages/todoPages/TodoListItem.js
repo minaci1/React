@@ -4,9 +4,9 @@ import {
   MdCheckBox,
   MdRemoveCircleOutline,
 } from 'react-icons/md';
-import './TodoListItem.scss';
+import '../css/TodoListItem.scss';
 import cn from 'classnames';
-import TodoContext from './context/TodoContext';
+import TodoContext from '../../context/TodoContext';
 
 const TodoListItem = ({ todo, style }) => {
   const { actions } = useContext(TodoContext);
@@ -21,7 +21,7 @@ const TodoListItem = ({ todo, style }) => {
 
   const onChangeChecked = useCallback(
     (e) => {
-      actions.onToggle(id);
+      actions.onToggle(id, checked);
     },
     [id],
   );

@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
-import './TodoInsert.scss';
-import TodoContext from './context/TodoContext';
+import '../css/TodoInsert.scss';
+import TodoContext from '../../context/TodoContext';
+
 const TodoInsert = () => {
-  
   const { actions } = useContext(TodoContext);
   const [value, setValue] = useState('');
   const inputBox = useRef(); //커서를 놓기위해
