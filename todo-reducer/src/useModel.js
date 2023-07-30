@@ -19,15 +19,6 @@ const reducerTodo = (todos, action) => {
   }
 };
 
-const todoList = async () => {
-  const response = await axios
-    .get('/todoList')
-    .then((response) => response.data);
-  const todos = response.data;
-  console.log('여기와?');
-  console.log(todos);
-};
-
 const useModel = () => {
   const [todos, dispatch] = useReducer(reducerTodo, []);
   const nextId = useRef(todos.length);
@@ -35,12 +26,20 @@ const useModel = () => {
   console.log('todos.length', nextId.current);
 
   const todoList = () => {
-    axios.get('/todoList').then((response) => {
-      dispatch({
-        type: 'ALL_LIST_TODO',
-        todos: response.data,
+    const token = JSON.parse(localStorage.getItem('auth'));
+    console.log('🚀 ~ file: useModel.js:39 ~ todoList ~ token:', token);
+    //user_id 를 가져와서 그에 대한 todolist만 select 해라
+
+    axios
+      .get('/todoList', { headers: { Authorization: token } })
+      .then((response) => {
+        console.log('🚀 ~ file: useModel.js:44 ~ .then ~ response:', response);
+
+        dispatch({
+          type: 'ALL_LIST_TODO',
+          todos: response.data,
+        });
       });
-    });
   };
   console.log(todos.checked);
 
@@ -54,23 +53,24 @@ const useModel = () => {
         .post(
           '/insert',
           {
-            checked: 'false',
+            checked_yn: 'N',
             title: value,
           },
           {
             headers: { 'Context-type': 'application/json' },
           },
         )
-        .then((response) =>
+        .then((response) => {
+          console.log('response.data' + response.data);
           dispatch({
             type: 'INSERT_TODO',
             todo: {
               id: response.data,
               title: value + ' ' + nextId.current,
-              checked: 'false',
+              checked_yn: response.data.checked_yn,
             },
-          }),
-        ),
+          });
+        }),
     [],
   );
 
