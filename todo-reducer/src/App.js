@@ -1,9 +1,10 @@
 import React, { useRef, useReducer, useCallback } from 'react';
 import './App.css';
-import TodoInsert from './TodoInsert';
-import TodoTemplate from './TodoTemplate';
-import TodoList from './TodoList';
+import TodoSignIn from './pages/signPages/TodoSignIn';
+import TodoSignUp from './pages/signPages/TodoSignUp';
+import TodoPage from './pages/todoPages/TodoPage';
 import useModel from './useModel';
+import { Route, Routes } from '../node_modules/react-router-dom/dist/index';
 
 function App() {
   //const [todos, insertTodo, removeTodo, onToggle] = useModel(); // 나는 32byte를 넘겨줌
@@ -11,12 +12,11 @@ function App() {
   console.log('🚀 ~ file: App.js:11 ~ App ~ model:', model.onToggle);
 
   return (
-    <div>
-      <TodoTemplate>
-        <TodoInsert insertTodo={model.insertTodo} />
-        <TodoList model={model} />
-      </TodoTemplate>
-    </div>
+    <Routes>
+      <Route path="/" element={<TodoSignIn />} />
+      <Route path="/signUp" element={<TodoSignUp />} />
+      <Route path="/todoPages" element={<TodoPage />} />
+    </Routes>
   );
 }
 
